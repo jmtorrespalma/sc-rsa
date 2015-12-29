@@ -1,0 +1,10 @@
+Asymmetric encryption tool.
+===========================
+
+Created with academic purposes to make RSA simpler to understand and use very
+basic examples. This is very easily breakable so it's not recommended for any
+real life applications. In that case, search for GNU Privacy Guard.
+
+Also, some documentation and a presentations are included.
+
+Refer to the COPYING file for further details about this software licensing.

@@ -1,0 +1,10 @@
+# Rules of .gitignore
+
+*.o
+*.swp
+
+# Executable files
+
+*gen-key
+*encrypt
+*decrypt
