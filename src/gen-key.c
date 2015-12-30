@@ -85,8 +85,31 @@ int64_t modular_inverse(int64_t a, int64_t b)
 	return x1;
 }
 
+/* Save the generated pair of keys to their respective files. */
 int save_keys(uint32_t n, uint32_t d, uint32_t e)
 {
+	char *pub = "key.pub";
+	char *pri = "key.pri";
+	FILE *fd = NULL;
+
+	if (!!(fd = fopen(pub,"w+"))) {
+		fprintf(fd, "%u, %u\n", n, e);
+		fclose(fd);
+
+		if(!!(fd = fopen(pri, "w+"))) {
+			fprintf(fd, "%u, %u\n", n, d);
+			fclose(fd);
+
+		} else {
+			fprintf(stderr, "Error: file %s not found.\n", pri);
+			exit(EXIT_FAILURE);
+		}
+
+	} else {
+		fprintf(stderr, "Error: file %s not found.\n", pub);
+		exit(EXIT_FAILURE);
+	}
+
 
 	return 0;
 }
@@ -102,6 +125,7 @@ int main(int argc, char *argv[])
 	uint16_t p, q;		/* Prime numbers */
 	uint32_t e, n, phi, d;
 
+	/* Set random number generator seed based on current time. */
 	srand(time(NULL));
 
 	/* First we choose an e value. It must be prime.
@@ -122,8 +146,9 @@ int main(int argc, char *argv[])
 	d = modular_inverse(e, phi);
 
 	printf("n = %u, phi = %u\n", n, phi);
-
 	printf("Mod inverse: %u\n", d);
+
+	save_keys(n, d, e);
 
 	return 0;
 

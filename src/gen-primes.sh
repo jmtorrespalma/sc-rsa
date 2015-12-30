@@ -16,6 +16,12 @@
 #   You should have received a copy of the GNU General Public License
 #   along with SC-RSA.  If not, see <http://www.gnu.org/licenses/>.
 
+# This program generates a list of variable length of several random prime
+# numbers. All of those primes are 16 bits length and created by openssl
+# command line utility.
+# The file primes.txt has the number of primes on the first line, followed by a
+# prime number in each line.
+
 rm primes.txt
 for i in {1..50}
 do

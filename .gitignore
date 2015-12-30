@@ -8,3 +8,7 @@
 *gen-key
 *encrypt
 *decrypt
+
+# Key files
+*.pri
+*.pub
