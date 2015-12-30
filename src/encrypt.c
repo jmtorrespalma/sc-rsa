@@ -20,7 +20,6 @@
  *  purposes. Do not use this program for other purposes as it is easily
  *  breakable. */
 
-
 int main(int argc, char *argv[])
 {
 

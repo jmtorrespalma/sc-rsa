@@ -68,20 +68,21 @@ uint16_t get_random_prime(void)
 	return num;
 }
 
-
 /* Computes the modular inverse, required to generate part of the
  * private key. Implementation of Extended Euclidean Algorithm. */
 int64_t modular_inverse(int64_t a, int64_t b)
 {
 	int64_t b0 = b, t, q;
 	int64_t x0 = 0, x1 = 1;
-	if (b == 1) return 1;
+	if (b == 1)
+		return 1;
 	while (a > 1) {
 		q = a / b;
 		t = b, b = a % b, a = t;
 		t = x0, x0 = x1 - q * x0, x1 = t;
 	}
-	if (x1 < 0) x1 += b0;
+	if (x1 < 0)
+		x1 += b0;
 	return x1;
 }
 
@@ -92,11 +93,11 @@ int save_keys(uint32_t n, uint32_t d, uint32_t e)
 	char *pri = "key.pri";
 	FILE *fd = NULL;
 
-	if (!!(fd = fopen(pub,"w+"))) {
+	if (!!(fd = fopen(pub, "w+"))) {
 		fprintf(fd, "%u, %u\n", n, e);
 		fclose(fd);
 
-		if(!!(fd = fopen(pri, "w+"))) {
+		if (!!(fd = fopen(pri, "w+"))) {
 			fprintf(fd, "%u, %u\n", n, d);
 			fclose(fd);
 
@@ -109,7 +110,6 @@ int save_keys(uint32_t n, uint32_t d, uint32_t e)
 		fprintf(stderr, "Error: file %s not found.\n", pub);
 		exit(EXIT_FAILURE);
 	}
-
 
 	return 0;
 }
