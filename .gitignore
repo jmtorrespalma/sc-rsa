@@ -12,3 +12,7 @@
 # Key files
 *.pri
 *.pub
+
+# All text files except primes
+*.txt
+!src/primes.txt

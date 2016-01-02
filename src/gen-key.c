@@ -57,7 +57,7 @@ uint16_t get_random_prime(void)
 
 	uint16_t num;
 
-	if (!!(f = fopen(filename, "r"))) {
+	if (! !(f = fopen(filename, "r"))) {
 		read_prime_file(f, num);
 		fclose(f);
 	} else {
@@ -93,11 +93,11 @@ int save_keys(uint32_t n, uint32_t d, uint32_t e)
 	char *pri = "key.pri";
 	FILE *fd = NULL;
 
-	if (!!(fd = fopen(pub, "w+"))) {
+	if (! !(fd = fopen(pub, "w+"))) {
 		fprintf(fd, "%u, %u\n", n, e);
 		fclose(fd);
 
-		if (!!(fd = fopen(pri, "w+"))) {
+		if (! !(fd = fopen(pri, "w+"))) {
 			fprintf(fd, "%u, %u\n", n, d);
 			fclose(fd);
 
