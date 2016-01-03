@@ -25,8 +25,9 @@
 
 #include <stdio.h>		/* Read and save files. */
 #include <stdlib.h>		/* Strings to ints */
-#include <stdint.h>		/* To make it portable to other architectures. */
 #include <time.h>		/* Add more entropy to random numbers. */
+
+#include "keyutils.h"
 
 /* Macro to read a prime number from our prime.txt file. */
 #define read_prime_file(f, num)						\
@@ -84,34 +85,6 @@ int64_t modular_inverse(int64_t a, int64_t b)
 	if (x1 < 0)
 		x1 += b0;
 	return x1;
-}
-
-/* Save the generated pair of keys to their respective files. */
-int save_keys(uint32_t n, uint32_t d, uint32_t e)
-{
-	char *pub = "key.pub";
-	char *pri = "key.pri";
-	FILE *fd = NULL;
-
-	if (! !(fd = fopen(pub, "w+"))) {
-		fprintf(fd, "%u, %u\n", n, e);
-		fclose(fd);
-
-		if (! !(fd = fopen(pri, "w+"))) {
-			fprintf(fd, "%u, %u\n", n, d);
-			fclose(fd);
-
-		} else {
-			fprintf(stderr, "Error: file %s not found.\n", pri);
-			exit(EXIT_FAILURE);
-		}
-
-	} else {
-		fprintf(stderr, "Error: file %s not found.\n", pub);
-		exit(EXIT_FAILURE);
-	}
-
-	return 0;
 }
 
 /* This performs the classic RSA algorithm.
