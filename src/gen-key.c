@@ -107,10 +107,12 @@ int main(int argc, char *argv[])
 
 	do {
 		p = get_random_prime();
+		//p = 11;
 	} while (p % e == 1);
 
 	do {
 		q = get_random_prime();
+		//q = 17;
 	} while (q % e == 1);
 
 	/* Calculate factors */

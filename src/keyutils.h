@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015 Juan Manuel Torres Palma <j.m.torrespalma@gmail.com>
+/*  Copyright (C) 2016 Juan Manuel Torres Palma <j.m.torrespalma@gmail.com>
     This file is part of the SC-RSA program.
 
     SC-RSA is free software: you can redistribute it and/or modify
@@ -58,7 +58,7 @@ void read_msg(char *const msg_file, char *const msg);
 
 /* Read encrypted message from file "msg_file" and save it to
  * "msg". */
-void read_crypt_msg(char *const msg_file, uint32_t const* msg);
+int read_crypt_msg(char *const msg_file, uint32_t *const msg);
 
 
 

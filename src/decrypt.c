@@ -20,8 +20,57 @@
  *  purposes. Do not use this program for other purposes as it is easily
  *  breakable. */
 
+#include <stdio.h>
+#include <math.h>
+
+/* Includes all tools to open key files and related. */
+#include "keyutils.h"
+
+/* Decrypt a message using RSA-32.
+ * Each characted mus be encrypted independently, otherwise it wont work
+ * correctly. This process is quite slow as it takes a lot of computation
+ * and we aren't using external libraries for big numbers, so we have to
+ * make all operations manually. */
+void decrypt(uint32_t * crypt_msg, char *msg, int sz, uint32_t n, uint32_t d)
+{
+	uint32_t i, j, v;
+	uint64_t acc;
+
+	for (i = 0; i < sz; ++i) {
+		/* We can't do the power using pow(), because with huge
+		 * exponents as d it will surely lead to overflow. We have
+		 * to control each operation and make a modulo operation on
+		 * every iteration to avoid overflow. This is extremely slow,
+		 * but it's the simplest solution. */
+		acc = v = crypt_msg[i];
+		for (j = 1; j < d; ++j) {
+			acc = (acc * v);
+			if (acc >= n)
+				acc %= n;
+		}
+
+		msg[i] = acc;
+	}
+}
+
 int main(int argc, char *argv[])
 {
+
+	char *keyfile = "key.pri";
+	char *crypt_file = NULL;
+	char msg[SZ];
+	uint32_t crypt_msg[SZ];
+
+	uint32_t n, d, max;
+
+	parse_args(keyfile, crypt_file);
+
+	read_key(keyfile, &n, &d);
+	max = read_crypt_msg(crypt_file, crypt_msg);
+
+	decrypt(crypt_msg, msg, max, n, d);
+
+	printf("%s\n", msg);
 
 	return 0;
 }

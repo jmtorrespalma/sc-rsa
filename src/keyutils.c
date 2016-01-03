@@ -1,4 +1,4 @@
-/*  Copyright (C) 2015 Juan Manuel Torres Palma <j.m.torrespalma@gmail.com>
+/*  Copyright (C) 2016 Juan Manuel Torres Palma <j.m.torrespalma@gmail.com>
     This file is part of the SC-RSA program.
 
     SC-RSA is free software: you can redistribute it and/or modify
@@ -51,7 +51,7 @@ void save_keys(uint32_t n, uint32_t d, uint32_t e)
  * to the function.
  * Our key files always have the same format so we can use fscanf to
  * read them. */
-void read_key(char *const key_file, uint32_t *n, uint32_t *e_or_d)
+void read_key(char *const key_file, uint32_t * n, uint32_t * e_or_d)
 {
 	FILE *fd;
 
@@ -65,7 +65,6 @@ void read_key(char *const key_file, uint32_t *n, uint32_t *e_or_d)
 	}
 
 }
-
 
 /* Read message in plain text to store it in another array ready to
  * be treated and modified.
@@ -106,8 +105,36 @@ void read_msg(char *const msg_file, char *const msg)
 }
 
 /* Read encrypted message from file "msg_file" and save it to
- * "msg". */
-void read_crypt_msg(char *const msg_file, uint32_t const* msg)
+ * "msg". Returns the number of integers read.*/
+int read_crypt_msg(char *const msg_file, uint32_t * const msg)
 {
+	FILE *fd;
+	char file_f;
+	char buff[9];		/* Numbers are 8 digit long in hex. */
+	unsigned cntr = 0;
+
+	/* Is there a file? */
+	file_f = (msg_file != NULL);
+
+	/* If no file specified, read from stdin. */
+	if (!file_f)
+		fd = stdin;
+
+	else {			/* Open file. */
+		if (!(fd = fopen(msg_file, "r"))) {
+			fprintf(stderr, "Error: file %s not found.\n",
+				msg_file);
+			exit(EXIT_FAILURE);
+		}
+	}
+
+	/* Read values. */
+	while ((fgets(buff, sizeof(buff), fd)) != NULL && cntr < SZ)
+		msg[cntr++] = strtol(buff, NULL, 16);
+
+	if (!file_f)
+		fclose(fd);
+
+	return cntr;
 
 }
