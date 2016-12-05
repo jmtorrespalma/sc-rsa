@@ -30,19 +30,11 @@ TARGETS := gen-key encrypt decrypt
 
 all: $(LIBFILE) $(TARGETS)
 
-#TODO: Unify all these three options.
-gen-key: gen-key.c $(LIBFILE)
-	$(CC) $(CFLAGS) -I. $^ -o $@
-
-encrypt: encrypt.c $(LIBFILE)
-	$(CC) $(CFLAGS) $(LDFLAGS) -I. $^ -o $@
-
-decrypt: decrypt.c $(LIBFILE)
+%: %.c $(LIBFILE)
 	$(CC) $(CFLAGS) $(LDFLAGS) -I. $^ -o $@
 
 $(LIBFILE): keyutils.c keyutils.h
 	$(CC) $(CFLAGS) -I. $< -c -o $@
-
 
 
 .PHONY: clean format
